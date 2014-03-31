@@ -16,7 +16,7 @@ int sys_cond_create(mem32_t cond_id, u32 mutex_id, mem_ptr_t<sys_cond_attribute>
 
 	if (attr->pshared.ToBE() != se32(0x200))
 	{
-		sys_cond.Error("Invalid pshared attribute(0x%x)", (u32)attr->pshared);
+		sys_cond.Error(fmt::fmt("Invalid pshared attribute(0x%x)", (u32)attr->pshared));
 		return CELL_EINVAL;
 	}
 

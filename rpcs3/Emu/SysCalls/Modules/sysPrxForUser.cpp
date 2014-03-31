@@ -100,7 +100,7 @@ int sys_spu_image_close(mem_ptr_t<sys_spu_image> img)
 
 int sys_raw_spu_load(int id, u32 path_addr, mem32_t entry)
 {
-	const wxString path = Memory.ReadString(path_addr).wx_str();
+	const wxString path = Memory.ReadString(path_addr);
 	sysPrxForUser.Warning("sys_raw_spu_load(id=0x%x, path=0x%x [%s], entry_addr=0x%x)", 
 		id, path_addr, path.wx_str(), entry.GetAddr());
 

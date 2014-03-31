@@ -62,7 +62,7 @@ next:
 
 				adec.reader.addr = adec.task.au.addr;
 				adec.reader.size = adec.task.au.size;
-				//ConLog.Write("Audio AU: size = 0x%x, pts = 0x%llx", adec.task.au.size, adec.task.au.pts);
+				//ConLog.Write(fmt::fmt("Audio AU: size = 0x%x, pts = 0x%llx", adec.task.au.size, adec.task.au.pts));
 
 				//if (adec.last_pts > adec.task.au.pts) adec.last_pts = adec.task.au.pts;
 			}
@@ -155,7 +155,7 @@ int adecRead(void* opaque, u8* buf, int buf_size)
 
 		u32 size = (((header[2] & 0x3) << 8) | header[3]) * 8 + 8; // data to be read before next header
 
-		//ConLog.Write("*** audio block read: size = 0x%x", size);
+		//ConLog.Write(fmt::fmt("*** audio block read: size = 0x%x", size));
 
 		if (buf_size < (int)size)
 		{
@@ -264,7 +264,7 @@ u32 adecOpen(AudioDecoder* data)
 
 					adec.reader.addr = task.au.addr;
 					adec.reader.size = task.au.size;
-					//ConLog.Write("Audio AU: size = 0x%x, pts = 0x%llx", task.au.size, task.au.pts);
+					//ConLog.Write(fmt::fmt("Audio AU: size = 0x%x, pts = 0x%llx", task.au.size, task.au.pts));
 
 					//if (adec.last_pts > task.au.pts || adec.just_started) adec.last_pts = task.au.pts;
 					if (adec.just_started) adec.last_pts = task.au.pts;
@@ -453,9 +453,9 @@ u32 adecOpen(AudioDecoder* data)
 								break;
 							}
 
-							//ConLog.Write("got audio frame (pts=0x%llx, nb_samples=%d, ch=%d, sample_rate=%d, nbps=%d)",
+							//ConLog.Write(fmt::fmt("got audio frame (pts=0x%llx, nb_samples=%d, ch=%d, sample_rate=%d, nbps=%d)",
 								//frame.pts, frame.data->nb_samples, frame.data->channels, frame.data->sample_rate,
-								//av_get_bytes_per_sample((AVSampleFormat)frame.data->format));
+								//av_get_bytes_per_sample((AVSampleFormat)frame.data->format)));
 
 							adec.frames.Push(frame);
 							frame.data = nullptr; // to prevent destruction
@@ -500,7 +500,7 @@ bool adecCheckType(AudioCodecType type)
 {
 	switch (type)
 	{
-	case CELL_ADEC_TYPE_ATRACX: ConLog.Write("*** (???) type: ATRAC3plus"); break;
+	case CELL_ADEC_TYPE_ATRACX: ConLog.Write("*** (?) type: ATRAC3plus"); break;
 	case CELL_ADEC_TYPE_ATRACX_2CH: ConLog.Write("*** type: ATRAC3plus 2ch"); break;
 
 	case CELL_ADEC_TYPE_ATRACX_6CH:

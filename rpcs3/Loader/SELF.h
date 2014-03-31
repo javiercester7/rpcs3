@@ -24,14 +24,14 @@ struct SceHeader
 
 	void Show()
 	{
-		ConLog.Write("Magic: %08x",			se_magic);
-		ConLog.Write("Class: %s",			wxString("SELF").wx_str());
-		ConLog.Write("hver: 0x%08x",		se_hver);
-		ConLog.Write("flags: 0x%04x",		se_flags);
-		ConLog.Write("type: 0x%04x",		se_type);
-		ConLog.Write("meta: 0x%08x",		se_meta);
-		ConLog.Write("hsize: 0x%llx",		se_hsize);
-		ConLog.Write("esize: 0x%llx",		se_esize);
+		ConLog.Write(fmt::fmt("Magic: %08x",	se_magic));
+		ConLog.Write("Class: ???",				"SELF");
+		ConLog.Write(fmt::fmt("hver: 0x%08x",	se_hver));
+		ConLog.Write(fmt::fmt("flags: 0x%04x",	se_flags));
+		ConLog.Write(fmt::fmt("type: 0x%04x",	se_type));
+		ConLog.Write(fmt::fmt("meta: 0x%08x",	se_meta));
+		ConLog.Write(fmt::fmt("hsize: 0x%llx",	se_hsize));
+		ConLog.Write(fmt::fmt("esize: 0x%llx",	se_esize));
 	}
 
 	bool CheckMagic() const { return se_magic == 0x53434500; }
@@ -66,15 +66,15 @@ struct SelfHeader
 
 	void Show()
 	{
-		ConLog.Write("header type: 0x%llx",					se_htype);
-		ConLog.Write("app info offset: 0x%llx",				se_appinfooff);
-		ConLog.Write("elf offset: 0x%llx",					se_elfoff);
-		ConLog.Write("program header offset: 0x%llx",		se_phdroff);
-		ConLog.Write("section header offset: 0x%llx",		se_shdroff);
-		ConLog.Write("section info offset: 0x%llx",			se_secinfoff);
-		ConLog.Write("sce version offset: 0x%llx",			se_sceveroff);
-		ConLog.Write("control info offset: 0x%llx",			se_controloff);
-		ConLog.Write("control info size: 0x%llx",			se_controlsize);
+		ConLog.Write(fmt::fmt("header type: 0x%llx",					se_htype));
+		ConLog.Write(fmt::fmt("app info offset: 0x%llx",				se_appinfooff));
+		ConLog.Write(fmt::fmt("elf offset: 0x%llx",						se_elfoff));
+		ConLog.Write(fmt::fmt("program header offset: 0x%llx",			se_phdroff));
+		ConLog.Write(fmt::fmt("section header offset: 0x%llx",			se_shdroff));
+		ConLog.Write(fmt::fmt("section info offset: 0x%llx",			se_secinfoff));
+		ConLog.Write(fmt::fmt("sce version offset: 0x%llx",				se_sceveroff));
+		ConLog.Write(fmt::fmt("control info offset: 0x%llx",			se_controloff));
+		ConLog.Write(fmt::fmt("control info size: 0x%llx",				se_controlsize));
 	}
 };
 

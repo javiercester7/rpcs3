@@ -64,7 +64,7 @@ bool vfsLocalFile::Create(const wxString& path)
 		const wxString& dir = path(0, p);
 		if(!wxDirExists(dir))
 		{
-			ConLog.Write("create dir: %s", dir.wx_str());
+			ConLog.Write("create dir: ???", dir.ToStdString());
 			wxMkdir(dir);
 		}
 	}

@@ -40,7 +40,7 @@ u32 dmuxOpen(Demuxer* data)
 
 	thread t("Demuxer[" + std::to_string(dmux_id) + "] Thread", [&]()
 	{
-		ConLog.Write("Demuxer enter (mem=0x%x, size=0x%x, cb=0x%x, arg=0x%x)", dmux.memAddr, dmux.memSize, dmux.cbFunc, dmux.cbArg);
+		ConLog.Write(fmt::fmt("Demuxer enter (mem=0x%x, size=0x%x, cb=0x%x, arg=0x%x)", dmux.memAddr, dmux.memSize, dmux.cbFunc, dmux.cbArg));
 
 		DemuxerTask task;
 		DemuxerStream stream;
@@ -159,7 +159,7 @@ u32 dmuxOpen(Demuxer* data)
 
 							es.push(stream, len - pes.size - 3, pes);
 							es.finish(stream);
-							//ConLog.Write("*** AT3+ AU sent (len=0x%x, pts=0x%llx)", len - pes.size - 3, pes.pts);
+							//ConLog.Write(fmt::fmt("*** AT3+ AU sent (len=0x%x, pts=0x%llx)", len - pes.size - 3, pes.pts));
 							
 							mem_ptr_t<CellDmuxEsMsg> esMsg(a128(dmux.memAddr) + (cb_add ^= 16));
 							esMsg->msgType = CELL_DMUX_ES_MSG_TYPE_AU_FOUND;
@@ -229,7 +229,7 @@ u32 dmuxOpen(Demuxer* data)
 
 							if (pes.new_au)
 							{
-								//ConLog.Write("*** AVC AU detected (pts=0x%llx, dts=0x%llx)", pes.pts, pes.dts);
+								//ConLog.Write(fmt::fmt("*** AVC AU detected (pts=0x%llx, dts=0x%llx)", pes.pts, pes.dts));
 							}
 
 							if (es.isfull())
@@ -317,8 +317,8 @@ u32 dmuxOpen(Demuxer* data)
 
 					updates_count++;
 					stream = task.stream;
-					//ConLog.Write("*** stream updated(addr=0x%x, size=0x%x, discont=%d, userdata=0x%llx)",
-						//stream.addr, stream.size, stream.discontinuity, stream.userdata);
+					//ConLog.Write(fmt::fmt("*** stream updated(addr=0x%x, size=0x%x, discont=%d, userdata=0x%llx)",
+						//stream.addr, stream.size, stream.discontinuity, stream.userdata));
 
 					dmux.is_running = true;
 					dmux.fbSetStream.Push(task.stream.addr); // feedback

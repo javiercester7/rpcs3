@@ -32,7 +32,7 @@ wxDragResult VHDDListDropTarget::OnData(wxCoord x, wxCoord y, wxDragResult def)
 {	
 	int flags = 0;
 	int dst_indx = m_parent->HitTest(wxPoint(x, y), flags);
-	ConLog.Write("OnData(%d -> %d)", m_src_indx, dst_indx);
+	ConLog.Write("OnData(??? -> ???)", m_src_indx, dst_indx);
 	return def;
 }
 
@@ -188,7 +188,7 @@ void VHDDExplorer::OnDropFiles(wxDropFilesEvent& event)
 
 	for(int i=0; i<count; ++i)
 	{
-		ConLog.Write("Importing '%s'", dropped[i].wx_str());
+		ConLog.Write("Importing '???'", dropped[i].ToStdString());
 		Import(dropped[i], wxFileName(dropped[i]).GetFullName());
 	}
 

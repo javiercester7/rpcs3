@@ -681,5 +681,8 @@
     <ClInclude Include="Crypto\utils.h">
       <Filter>Crypto</Filter>
     </ClInclude>
+    <ClInclude Include="..\Utilities\StrFmt.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

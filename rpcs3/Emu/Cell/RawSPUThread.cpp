@@ -32,7 +32,7 @@ bool RawSPUThread::Read8(const u64 addr, u8* value)
 	}
 
 	u32 offset = addr - GetStartAddr() - RAW_SPU_PROB_OFFSET;
-	ConLog.Error("RawSPUThread[%d]: Read8(0x%x)", m_index, offset);
+	ConLog.Error(fmt::fmt("RawSPUThread[%d]: Read8(0x%x)", m_index, offset));
 	Emu.Pause();
 	return false;
 }
@@ -45,7 +45,7 @@ bool RawSPUThread::Read16(const u64 addr, u16* value)
 	}
 
 	u32 offset = addr - GetStartAddr() - RAW_SPU_PROB_OFFSET;
-	ConLog.Error("RawSPUThread[%d]: Read16(0x%x)", m_index, offset);
+	ConLog.Error(fmt::fmt("RawSPUThread[%d]: Read16(0x%x)", m_index, offset));
 	Emu.Pause();
 	return false;
 }
@@ -82,14 +82,14 @@ bool RawSPUThread::Read32(const u64 addr, u32* value)
 		SPU.MBox_Status.SetValue((SPU.Out_MBox.GetCount() & 0xff) | (SPU.In_MBox.GetFreeCount() << 8));
 		*value = SPU.MBox_Status.GetValue();
 		break;
-	case SPU_RunCntl_offs:			ConLog.Warning("RawSPUThread[%d]: Read32(SPU_RunCntl)", m_index);		*value = SPU.RunCntl.GetValue(); break;
-	case SPU_Status_offs:			ConLog.Warning("RawSPUThread[%d]: Read32(SPU_Status)", m_index);		*value = SPU.Status.GetValue(); break;
-	case SPU_NPC_offs:				ConLog.Warning("RawSPUThread[%d]: Read32(SPU_NPC)", m_index);			*value = SPU.NPC.GetValue(); break;
-	case SPU_RdSigNotify1_offs:		ConLog.Warning("RawSPUThread[%d]: Read32(SPU_RdSigNotify1)", m_index);	*value = SPU.SNR[0].GetValue(); break;
-	case SPU_RdSigNotify2_offs:		ConLog.Warning("RawSPUThread[%d]: Read32(SPU_RdSigNotify2)", m_index);	*value = SPU.SNR[1].GetValue(); break;
+	case SPU_RunCntl_offs:			ConLog.Warning("RawSPUThread[???]: Read32(SPU_RunCntl)", m_index);		*value = SPU.RunCntl.GetValue(); break;
+	case SPU_Status_offs:			ConLog.Warning("RawSPUThread[???]: Read32(SPU_Status)", m_index);		*value = SPU.Status.GetValue(); break;
+	case SPU_NPC_offs:				ConLog.Warning("RawSPUThread[???]: Read32(SPU_NPC)", m_index);			*value = SPU.NPC.GetValue(); break;
+	case SPU_RdSigNotify1_offs:		ConLog.Warning("RawSPUThread[???]: Read32(SPU_RdSigNotify1)", m_index);	*value = SPU.SNR[0].GetValue(); break;
+	case SPU_RdSigNotify2_offs:		ConLog.Warning("RawSPUThread[???]: Read32(SPU_RdSigNotify2)", m_index);	*value = SPU.SNR[1].GetValue(); break;
 
 	default:
-		ConLog.Error("RawSPUThread[%d]: Read32(0x%x)", m_index, offset);
+		ConLog.Error(fmt::fmt("RawSPUThread[%d]: Read32(0x%x)", m_index, offset));
 		Emu.Pause();
 	break;
 	}
@@ -105,7 +105,7 @@ bool RawSPUThread::Read64(const u64 addr, u64* value)
 	}
 
 	u32 offset = addr - GetStartAddr() - RAW_SPU_PROB_OFFSET;
-	ConLog.Error("RawSPUThread[%d]: Read64(0x%x)", m_index, offset);
+	ConLog.Error(fmt::fmt("RawSPUThread[%d]: Read64(0x%x)", m_index, offset));
 	Emu.Pause();
 	return false;
 }
@@ -118,7 +118,7 @@ bool RawSPUThread::Read128(const u64 addr, u128* value)
 	}
 
 	u32 offset = addr - GetStartAddr() - RAW_SPU_PROB_OFFSET;
-	ConLog.Error("RawSPUThread[%d]: Read128(0x%x)", m_index, offset);
+	ConLog.Error(fmt::fmt("RawSPUThread[%d]: Read128(0x%x)", m_index, offset));
 	Emu.Pause();
 	return false;
 }
@@ -131,7 +131,7 @@ bool RawSPUThread::Write8(const u64 addr, const u8 value)
 	}
 
 	u32 offset = addr - GetStartAddr() - RAW_SPU_PROB_OFFSET;
-	ConLog.Error("RawSPUThread[%d]: Write8(0x%x, 0x%x)", m_index, offset, value);
+	ConLog.Error(fmt::fmt("RawSPUThread[%d]: Write8(0x%x, 0x%x)", m_index, offset, value));
 	Emu.Pause();
 	return false;
 }
@@ -144,7 +144,7 @@ bool RawSPUThread::Write16(const u64 addr, const u16 value)
 	}
 
 	u32 offset = addr - GetStartAddr() - RAW_SPU_PROB_OFFSET;
-	ConLog.Error("RawSPUThread[%d]: Write16(0x%x, 0x%x)", m_index, offset, value);
+	ConLog.Error(fmt::fmt("RawSPUThread[%d]: Write16(0x%x, 0x%x)", m_index, offset, value));
 	Emu.Pause();
 	return false;
 }
@@ -181,7 +181,7 @@ bool RawSPUThread::Write32(const u64 addr, const u32 value)
 		break;
 
 		default:
-			ConLog.Error("RawSPUThread[%d]: Unknown Prxy Query Type. (prxy_query=0x%x)", m_index, value);
+			ConLog.Error(fmt::fmt("RawSPUThread[%d]: Unknown Prxy Query Type. (prxy_query=0x%x)", m_index, value));
 		break;
 		}
 
@@ -204,7 +204,7 @@ bool RawSPUThread::Write32(const u64 addr, const u32 value)
 	case SPU_RdSigNotify2_offs:		ConLog.Warning("RawSPUThread[%d]: Write32(SPU_RdSigNotify2, 0x%x)", m_index, value);	SPU.SNR[1].SetValue(value); break;
 
 	default:
-		ConLog.Error("RawSPUThread[%d]: Write32(0x%x, 0x%x)", m_index, offset, value);
+		ConLog.Error(fmt::fmt("RawSPUThread[%d]: Write32(0x%x, 0x%x)", m_index, offset, value));
 		Emu.Pause();
 	break;
 	}
@@ -220,7 +220,7 @@ bool RawSPUThread::Write64(const u64 addr, const u64 value)
 	}
 
 	u32 offset = addr - GetStartAddr() - RAW_SPU_PROB_OFFSET;
-	ConLog.Error("RawSPUThread[%d]: Write64(0x%x, 0x%llx)", m_index, offset, value);
+	ConLog.Error(fmt::fmt("RawSPUThread[%d]: Write64(0x%x, 0x%llx)", m_index, offset, value));
 	Emu.Pause();
 	return false;
 }
@@ -233,7 +233,7 @@ bool RawSPUThread::Write128(const u64 addr, const u128 value)
 	}
 
 	u32 offset = addr - GetStartAddr() - RAW_SPU_PROB_OFFSET;
-	ConLog.Error("RawSPUThread[%d]: Write128(0x%x, 0x%llx_%llx)", m_index, offset, value._u64[1], value._u64[0]);
+	ConLog.Error(fmt::fmt("RawSPUThread[%d]: Write128(0x%x, 0x%llx_%llx)", m_index, offset, value._u64[1], value._u64[0]));
 	Emu.Pause();
 	return false;
 }
@@ -251,7 +251,7 @@ u32 RawSPUThread::GetIndex() const
 
 void RawSPUThread::Task()
 {
-	if (Ini.HLELogging.GetValue()) ConLog.Write("%s enter", PPCThread::GetFName().wx_str());
+	if (Ini.HLELogging.GetValue()) ConLog.Write("??? enter", PPCThread::GetFName());
 
 	const Array<u64>& bp = Emu.GetBreakPoints();
 
@@ -327,12 +327,16 @@ void RawSPUThread::Task()
 	}
 	catch(const wxString& e)
 	{
-		ConLog.Error("Exception: %s", e.wx_str());
+		ConLog.Error("Exception: ???", e.ToStdString());
 	}
-	catch(const char* e)
+	catch (const std::string& e)
 	{
-		ConLog.Error("Exception: %s", wxString(e).wx_str());
+		ConLog.Error("Exception: ???", e);
+	}
+	catch (const char* e)
+	{
+		ConLog.Error("Exception: ???", e);
 	}
 
-	if (Ini.HLELogging.GetValue()) ConLog.Write("%s leave", PPCThread::GetFName().wx_str());
+	if (Ini.HLELogging.GetValue()) ConLog.Write("??? leave", PPCThread::GetFName());
 }

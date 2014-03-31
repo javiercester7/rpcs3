@@ -55,7 +55,7 @@ private:
 
 				if (Ini.HLELogging.GetValue())
 				{
-					ConLog.Write("sys_spu_thread_receive_event(spuq=0x%x)", spuq);
+					ConLog.Write(fmt::fmt("sys_spu_thread_receive_event(spuq=0x%x)", spuq));
 				}
 
 				EventQueue* eq;
@@ -121,7 +121,7 @@ private:
 			else if (Ini.HLELogging.GetValue())
 			{
 				// the real exit status
-				ConLog.Write("sys_spu_thread_exit (status=0x%x)", CPU.SPU.Out_MBox.GetValue());
+				ConLog.Write(fmt::fmt("sys_spu_thread_exit (status=0x%x)", CPU.SPU.Out_MBox.GetValue()));
 			}
 			CPU.Stop();
 			break;
@@ -1526,8 +1526,8 @@ private:
 
 	void UNK(const wxString& err)
 	{
-		ConLog.Error(err + wxString::Format(" #pc: 0x%x", CPU.PC));
+		ConLog.Error((err + wxString::Format(" #pc: 0x%x", CPU.PC)).ToStdString());
 		Emu.Pause();
-		for(uint i=0; i<128; ++i) ConLog.Write("r%d = 0x%s", i, CPU.GPR[i].ToString().wx_str());
+		for(uint i=0; i<128; ++i) ConLog.Write("r??? = 0x???", i, CPU.GPR[i].ToString());
 	}
 };

@@ -280,12 +280,12 @@ bool ELF64Loader::LoadPhdrData(u64 offset)
 					info.ppc_seg = re(proc_param.info.ppc_seg);
 					//info.crash_dump_param_addr = re(proc_param.info.crash_dump_param_addr);
 #ifdef LOADER_DEBUG
-					ConLog.Write("*** sdk version: 0x%x", info.sdk_version);
-					ConLog.Write("*** primary prio: %d", info.primary_prio);
-					ConLog.Write("*** primary stacksize: 0x%x", info.primary_stacksize);
-					ConLog.Write("*** malloc pagesize: 0x%x", info.malloc_pagesize);
-					ConLog.Write("*** ppc seg: 0x%x", info.ppc_seg);
-					//ConLog.Write("*** crash dump param addr: 0x%x", info.crash_dump_param_addr);
+					ConLog.Write(fmt::fmt("*** sdk version: 0x%x", info.sdk_version));
+					ConLog.Write("*** primary prio: ???", info.primary_prio);
+					ConLog.Write(fmt::fmt("*** primary stacksize: 0x%x", info.primary_stacksize));
+					ConLog.Write(fmt::fmt("*** malloc pagesize: 0x%x", info.malloc_pagesize));
+					ConLog.Write(fmt::fmt("*** ppc seg: 0x%x", info.ppc_seg));
+					//ConLog.Write(fmt::fmt("*** crash dump param addr: 0x%x", info.crash_dump_param_addr));
 #endif
 				}
 			}
@@ -307,14 +307,14 @@ bool ELF64Loader::LoadPhdrData(u64 offset)
 				proc_prx_param.ver = re(proc_prx_param.ver);
 
 #ifdef LOADER_DEBUG
-				ConLog.Write("*** size: 0x%x", proc_prx_param.size);
-				ConLog.Write("*** magic: 0x%x", proc_prx_param.magic);
-				ConLog.Write("*** version: 0x%x", proc_prx_param.version);
-				ConLog.Write("*** libentstart: 0x%x", proc_prx_param.libentstart);
-				ConLog.Write("*** libentend: 0x%x", proc_prx_param.libentend);
-				ConLog.Write("*** libstubstart: 0x%x", proc_prx_param.libstubstart);
-				ConLog.Write("*** libstubend: 0x%x", proc_prx_param.libstubend);
-				ConLog.Write("*** ver: 0x%x", proc_prx_param.ver);
+				ConLog.Write(fmt::fmt("*** size: 0x%x", proc_prx_param.size));
+				ConLog.Write(fmt::fmt("*** magic: 0x%x", proc_prx_param.magic));
+				ConLog.Write(fmt::fmt("*** version: 0x%x", proc_prx_param.version));
+				ConLog.Write(fmt::fmt("*** libentstart: 0x%x", proc_prx_param.libentstart));
+				ConLog.Write(fmt::fmt("*** libentend: 0x%x", proc_prx_param.libentend));
+				ConLog.Write(fmt::fmt("*** libstubstart: 0x%x", proc_prx_param.libstubstart));
+				ConLog.Write(fmt::fmt("*** libstubend: 0x%x", proc_prx_param.libstubend));
+				ConLog.Write(fmt::fmt("*** ver: 0x%x", proc_prx_param.ver));
 #endif
 
 				if(proc_prx_param.magic != 0x1b434cec)
@@ -349,14 +349,14 @@ bool ELF64Loader::LoadPhdrData(u64 offset)
 
 #ifdef LOADER_DEBUG
 						ConLog.SkipLn();
-						ConLog.Write("*** size: 0x%x", stub.s_size);
-						ConLog.Write("*** version: 0x%x", stub.s_version);
-						ConLog.Write("*** unk0: 0x%x", stub.s_unk0);
-						ConLog.Write("*** unk1: 0x%x", stub.s_unk1);
-						ConLog.Write("*** imports: %d", stub.s_imports);
-						ConLog.Write("*** module name: %s [0x%x]", module_name.wx_str(), stub.s_modulename);
-						ConLog.Write("*** nid: 0x%x", stub.s_nid);
-						ConLog.Write("*** text: 0x%x", stub.s_text);
+						ConLog.Write(fmt::fmt("*** size: 0x%x", stub.s_size));
+						ConLog.Write(fmt::fmt("*** version: 0x%x", stub.s_version));
+						ConLog.Write(fmt::fmt("*** unk0: 0x%x", stub.s_unk0));
+						ConLog.Write(fmt::fmt("*** unk1: 0x%x", stub.s_unk1));
+						ConLog.Write("*** imports: ???", stub.s_imports);
+						ConLog.Write(fmt::fmt("*** module name: %s [0x%x]", module_name.wx_str(), stub.s_modulename));
+						ConLog.Write(fmt::fmt("*** nid: 0x%x", stub.s_nid));
+						ConLog.Write(fmt::fmt("*** text: 0x%x", stub.s_text));
 #endif
 						static const u32 section = 4 * 3;
 						u64 tbl = Memory.MainMem.AllocAlign(stub.s_imports * 4 * 2);
@@ -376,9 +376,9 @@ bool ELF64Loader::LoadPhdrData(u64 offset)
 								}
 							}
 #ifdef LOADER_DEBUG
-							ConLog.Write("import %d:", i+1);
-							ConLog.Write("*** nid: 0x%x (0x%x)", nid, stub.s_nid + i*4);
-							ConLog.Write("*** text: 0x%x (0x%x)", text, stub.s_text + i*4);
+							ConLog.Write("import ???:", i+1);
+							ConLog.Write(fmt::fmt("*** nid: 0x%x (0x%x)", nid, stub.s_nid + i*4));
+							ConLog.Write(fmt::fmt("*** text: 0x%x (0x%x)", text, stub.s_text + i*4));
 #endif
 							Memory.Write32(stub.s_text + i*4, tbl + i*8);
 
@@ -420,7 +420,7 @@ bool ELF64Loader::LoadShdrData(u64 offset)
 			const wxString& name = shdr_name_arr[i];
 
 #ifdef LOADER_DEBUG
-			ConLog.Write("Name: %s", shdr_name_arr[i].wx_str());
+			ConLog.Write("Name: ???", shdr_name_arr[i].ToStdString());
 #endif
 		}
 

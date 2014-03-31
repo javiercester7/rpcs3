@@ -28,7 +28,7 @@ void GameViewer::DoResize(wxSize size)
 void GameViewer::LoadGames()
 {
 	vfsDir dir(m_path);
-	ConLog.Write("path: %s", m_path.wx_str());
+	ConLog.Write("path: ???", m_path.ToStdString());
 	if(!dir.IsOpened()) return;
 
 	m_games.Clear();
@@ -41,8 +41,8 @@ void GameViewer::LoadGames()
 		}
 	}
 
-	//ConLog.Write("path: %s", m_path.wx_str());
-	//ConLog.Write("folders count: %d", m_games.GetCount());
+	//ConLog.Write("path: ???", m_path.ToStdString());
+	//ConLog.Write("folders count: ???", m_games.GetCount());
 }
 
 void GameViewer::LoadPSF()

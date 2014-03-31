@@ -298,7 +298,7 @@ bool ELF32Loader::LoadShdrData(u64 offset)
 		Elf32_Shdr& shdr = shdr_arr[i];
 
 #ifdef LOADER_DEBUG
-		if(i < shdr_name_arr.GetCount()) ConLog.Write("Name: %s", shdr_name_arr[i].wx_str());
+		if(i < shdr_name_arr.GetCount()) ConLog.Write("Name: ???", shdr_name_arr[i].ToStdString());
 		shdr.Show();
 		ConLog.SkipLn();
 #endif

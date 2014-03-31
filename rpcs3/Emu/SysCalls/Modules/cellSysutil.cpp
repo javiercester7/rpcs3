@@ -853,7 +853,7 @@ int cellHddGameCheck(u32 version, u32 dirName_addr, u32 errDialog, mem_func_ptr_
 	if (!Memory.IsGoodAddr(dirName_addr) || !funcStat.IsGood())
 		return CELL_HDDGAME_ERROR_PARAM;
 
-	std::string dirName = Memory.ReadString(dirName_addr).ToStdString();
+	std::string dirName = Memory.ReadString(dirName_addr);
 	if (dirName.size() != 9)
 		return CELL_HDDGAME_ERROR_PARAM;
 

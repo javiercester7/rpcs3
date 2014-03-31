@@ -46,7 +46,7 @@ bool PKGLoader::Install(std::string dest)
 	}
 	else
 	{
-		ConLog.Write("PKG Loader: Package successfully installed in: /dev_hdd0/game/%s", wxString(titleID.c_str()).wx_str());
+		ConLog.Write("PKG Loader: Package successfully installed in: /dev_hdd0/game/???", titleID.c_str());
 		return true;
 	}
 }

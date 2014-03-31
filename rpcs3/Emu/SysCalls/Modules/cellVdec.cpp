@@ -66,7 +66,7 @@ next:
 
 				vdec.reader.addr = vdec.task.addr;
 				vdec.reader.size = vdec.task.size;
-				//ConLog.Write("Video AU: size = 0x%x, pts = 0x%llx, dts = 0x%llx", vdec.task.size, vdec.task.pts, vdec.task.dts);
+				//ConLog.Write(fmt::fmt("Video AU: size = 0x%x, pts = 0x%llx, dts = 0x%llx", vdec.task.size, vdec.task.pts, vdec.task.dts));
 
 				//if (vdec.last_pts > vdec.task.pts) vdec.last_pts = vdec.task.pts;
 				//if (vdec.last_dts > vdec.task.dts) vdec.last_dts = vdec.task.dts;
@@ -206,7 +206,7 @@ u32 vdecOpen(VideoDecoder* data)
 
 					vdec.reader.addr = task.addr;
 					vdec.reader.size = task.size;
-					//ConLog.Write("Video AU: size = 0x%x, pts = 0x%llx, dts = 0x%llx", task.size, task.pts, task.dts);
+					//ConLog.Write(fmt::fmt("Video AU: size = 0x%x, pts = 0x%llx, dts = 0x%llx", task.size, task.pts, task.dts));
 
 					//if (vdec.last_pts > task.pts || vdec.just_started) vdec.last_pts = task.pts;
 					//if (vdec.last_dts > task.dts || vdec.just_started) vdec.last_dts = task.dts;
@@ -361,7 +361,7 @@ u32 vdecOpen(VideoDecoder* data)
 							frame.pts = vdec.last_pts; vdec.last_pts += 3003;
 							frame.userdata = task.userData;
 
-							//ConLog.Write("got picture (pts=0x%llx, dts=0x%llx)", frame.pts, frame.dts);	
+							//ConLog.Write(fmt::fmt("got picture (pts=0x%llx, dts=0x%llx)", frame.pts, frame.dts));	
 
 							vdec.frames.Push(frame); // !!!!!!!!
 							frame.data = nullptr; // to prevent destruction

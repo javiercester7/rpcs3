@@ -142,7 +142,7 @@ void CPUThread::SetBranch(const u64 pc, bool record_branch)
 {
 	if(!Memory.IsGoodAddr(m_offset + pc))
 	{
-		ConLog.Error("%s branch error: bad address 0x%llx #pc: 0x%llx", GetFName().wx_str(), m_offset + pc, m_offset + PC);
+		ConLog.Error(fmt::fmt("%s branch error: bad address 0x%llx #pc: 0x%llx", GetFName(), m_offset + pc, m_offset + PC));
 		Emu.Pause();
 	}
 
@@ -296,7 +296,7 @@ void CPUThread::ExecOnce()
 
 void CPUThread::Task()
 {
-	if (Ini.HLELogging.GetValue()) ConLog.Write("%s enter", CPUThread::GetFName().wx_str());
+	if (Ini.HLELogging.GetValue()) ConLog.Write("??? enter", CPUThread::GetFName());
 
 	const Array<u64>& bp = Emu.GetBreakPoints();
 
@@ -347,18 +347,22 @@ void CPUThread::Task()
 	}
 	catch(const wxString& e)
 	{
-		ConLog.Error("Exception: %s", e.wx_str());
+		ConLog.Error("Exception: ???", e.ToStdString());
 	}
-	catch(const char* e)
+	catch (const std::string& e)
 	{
-		ConLog.Error("Exception: %s", wxString(e).wx_str());
+		ConLog.Error("Exception: ???", e);
+	}
+	catch (const char* e)
+	{
+		ConLog.Error("Exception: ???", e);
 	}
 	catch(int exitcode)
 	{
 		ConLog.Success("Exit Code: %d", exitcode);
 	}
 
-	if (Ini.HLELogging.GetValue()) ConLog.Write("%s leave", CPUThread::GetFName().wx_str());
+	if (Ini.HLELogging.GetValue()) ConLog.Write("??? leave", CPUThread::GetFName());
 }
 
 s64 CPUThread::ExecAsCallback(u64 pc, bool wait, u64 a1, u64 a2, u64 a3, u64 a4) // not multithread-safe

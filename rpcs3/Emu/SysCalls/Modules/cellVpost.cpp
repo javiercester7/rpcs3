@@ -33,7 +33,7 @@ u32 vpostOpen(VpostInstance* data)
 {
 	u32 id = cellVpost.GetNewId(data);
 
-	ConLog.Write("*** Vpost instance created (to_rgba=%d): id = %d", data->to_rgba, id);
+	ConLog.Write("*** Vpost instance created (to_rgba=???): id = ???", data->to_rgba, id);
 
 	return id;
 }

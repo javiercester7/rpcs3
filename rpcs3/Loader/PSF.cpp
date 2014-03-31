@@ -42,7 +42,7 @@ bool PSFLoader::LoadHeader()
 	if(!m_header.CheckMagic())
 		return false;
 
-	if(m_show_log) ConLog.Write("PSF version: %x", m_header.psf_version);
+	if(m_show_log) ConLog.Write(fmt::fmt("PSF version: %x", m_header.psf_version));
 
 	m_psfindxs.clear();
 	m_entries.clear();

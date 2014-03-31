@@ -151,7 +151,7 @@ public:
 
 	virtual void Task()
 	{
-		ConLog.Write("Start dump in thread %d!", (int)id);
+		ConLog.Write("Start dump in thread ???!", (int)id);
 		const u32 max_value = prog_dial->GetMaxValue(id);
 		const u32 shdr_count = ElfType64 ? shdr_arr_64->GetCount() : shdr_arr_32->GetCount();
 
@@ -179,14 +179,14 @@ public:
 			}
 		}
 
-		ConLog.Write("Finish dump in thread %d!", (int)id);
+		ConLog.Write("Finish dump in thread ???!", (int)id);
 
 		*done = true;
 	}
 
 	void OnExit()
 	{
-		ConLog.Write("CleanUp dump thread (%d)!", (int)id);
+		ConLog.Write("CleanUp dump thread (???)!", (int)id);
 		safe_delete(decoder);
 	}
 };
@@ -297,7 +297,7 @@ void DisAsmFrame::Dump(wxCommandEvent& WXUNUSED(event))
 	vfsLocalFile& f_elf = *new vfsLocalFile(nullptr);
 	f_elf.Open(Emu.m_path);
 
-	ConLog.Write("path: %s", Emu.m_path.wx_str());
+	ConLog.Write("path: ???", Emu.m_path.ToStdString());
 	Elf_Ehdr ehdr;
 	ehdr.Load(f_elf);
 

@@ -26,25 +26,25 @@ struct Elf32_Ehdr
 	void Show()
 	{
 #ifdef LOADER_DEBUG
-		ConLog.Write("Magic: %08x",								e_magic);
-		ConLog.Write("Class: %s",								wxString("ELF32").wx_str());
-		ConLog.Write("Data: %s",								Ehdr_DataToString(e_data).wx_str());
-		ConLog.Write("Current Version: %d",						e_curver);
-		ConLog.Write("OS/ABI: %s",								Ehdr_OS_ABIToString(e_os_abi).wx_str());
-		ConLog.Write("ABI version: %lld",						e_abi_ver);
-		ConLog.Write("Type: %s",								Ehdr_TypeToString(e_type).wx_str());
-		ConLog.Write("Machine: %s",								Ehdr_MachineToString(e_machine).wx_str());
-		ConLog.Write("Version: %d",								e_version);
-		ConLog.Write("Entry point address: 0x%x",				e_entry);
-		ConLog.Write("Program headers offset: 0x%08x",			e_phoff);
-		ConLog.Write("Section headers offset: 0x%08x",			e_shoff);
-		ConLog.Write("Flags: 0x%x",								e_flags);
-		ConLog.Write("Size of this header: %d",					e_ehsize);
-		ConLog.Write("Size of program headers: %d",				e_phentsize);
-		ConLog.Write("Number of program headers: %d",			e_phnum);
-		ConLog.Write("Size of section headers: %d",				e_shentsize);
-		ConLog.Write("Number of section headers: %d",			e_shnum);
-		ConLog.Write("Section header string table index: %d",	e_shstrndx);
+		ConLog.Write("Magic: ???",								fmt::fmt("%08x",e_magic));
+		ConLog.Write("Class: ???",								"ELF32");
+		ConLog.Write("Data: ???",								Ehdr_DataToString(e_data).ToStdString());
+		ConLog.Write("Current Version: ???",					e_curver);
+		ConLog.Write("OS/ABI: ???",								Ehdr_OS_ABIToString(e_os_abi).ToStdString());
+		ConLog.Write("ABI version: ???",						e_abi_ver);
+		ConLog.Write("Type: ???",								Ehdr_TypeToString(e_type).ToStdString());
+		ConLog.Write("Machine: ???",							Ehdr_MachineToString(e_machine).ToStdString());
+		ConLog.Write("Version: ???",							e_version);
+		ConLog.Write("Entry point address: 0x%x",				fmt::fmt("%x",e_entry));
+		ConLog.Write("Program headers offset: 0x???",			fmt::fmt("%x",e_phoff));
+		ConLog.Write("Section headers offset: 0x???",			fmt::fmt("%08x",e_shoff));
+		ConLog.Write("Flags: 0x???",							fmt::fmt("%x",e_flags));
+		ConLog.Write("Size of this header: ???",				e_ehsize);
+		ConLog.Write("Size of program headers: ???",			e_phentsize);
+		ConLog.Write("Number of program headers: ???",			e_phnum);
+		ConLog.Write("Size of section headers: ???",			e_shentsize);
+		ConLog.Write("Number of section headers: ???",			e_shnum);
+		ConLog.Write("Section header string table index: ???",	e_shstrndx);
 #endif
 	}
 
@@ -216,16 +216,16 @@ struct Elf32_Shdr
 	void Show()
 	{
 #ifdef LOADER_DEBUG
-		ConLog.Write("Name offset: %x",		sh_name);
-		ConLog.Write("Type: %d",			sh_type);
-		ConLog.Write("Addr: %x",			sh_addr);
-		ConLog.Write("Offset: %x",			sh_offset);
-		ConLog.Write("Size: %x",			sh_size);
-		ConLog.Write("EntSize: %d",			sh_entsize);
-		ConLog.Write("Flags: %x",			sh_flags);
-		ConLog.Write("Link: %x",			sh_link);
-		ConLog.Write("Info: %d",			sh_info);
-		ConLog.Write("Address align: %x",	sh_addralign);
+		ConLog.Write(fmt:fmt("Name offset: %x",		sh_name));
+		ConLog.Write(fmt:fmt("Type: %d",			sh_type));
+		ConLog.Write(fmt:fmt("Addr: %x",			sh_addr));
+		ConLog.Write(fmt:fmt("Offset: %x",			sh_offset));
+		ConLog.Write(fmt:fmt("Size: %x",			sh_size));
+		ConLog.Write(fmt:fmt("EntSize: %d",			sh_entsize));
+		ConLog.Write(fmt:fmt("Flags: %x",			sh_flags));
+		ConLog.Write(fmt:fmt("Link: %x",			sh_link));
+		ConLog.Write(fmt:fmt("Info: %d",			sh_info));
+		ConLog.Write(fmt:fmt("Address align: %x",	sh_addralign));
 #endif
 	}
 };
@@ -268,14 +268,14 @@ struct Elf32_Phdr
 	void Show()
 	{
 #ifdef LOADER_DEBUG
-		ConLog.Write("Type: %s",					Phdr_TypeToString(p_type).wx_str());
-		ConLog.Write("Offset: 0x%08x",				p_offset);
-		ConLog.Write("Virtual address: 0x%08x",		p_vaddr);
-		ConLog.Write("Physical address: 0x%08x",	p_paddr);
-		ConLog.Write("File size: 0x%08x",			p_filesz);
-		ConLog.Write("Memory size: 0x%08x",			p_memsz);
-		ConLog.Write("Flags: %s",					Phdr_FlagsToString(p_flags).wx_str());
-		ConLog.Write("Align: 0x%x",					p_align);
+		ConLog.Write("Type: ???",								Phdr_TypeToString(p_type).ToStdString());
+		ConLog.Write(fmt::fmt("Offset: 0x%08x",					p_offset));
+		ConLog.Write(fmt::fmt("Virtual address: 0x%08x",		p_vaddr));
+		ConLog.Write(fmt::fmt("Physical address: 0x%08x",		p_paddr));
+		ConLog.Write(fmt::fmt("File size: 0x%08x",				p_filesz));
+		ConLog.Write(fmt::fmt("Memory size: 0x%08x",			p_memsz));
+		ConLog.Write("Flags: ???",								Phdr_FlagsToString(p_flags).ToStdString());
+		ConLog.Write(fmt::fmt("Align: 0x%x",					p_align));
 #endif
 	}
 };

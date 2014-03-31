@@ -47,9 +47,9 @@ void PPUThread::DoReset()
 	cycle = 0;
 }
 
-void PPUThread::AddArgv(const wxString& arg)
+void PPUThread::AddArgv(const std::string& arg)
 {
-	m_stack_point -= arg.Len() + 1;
+	m_stack_point -= arg.length() + 1;
 	m_stack_point = Memory.AlignAddr(m_stack_point, 0x10) - 0x10;
 	m_argv_addr.AddCpy(m_stack_point);
 	Memory.WriteString(m_stack_point, arg);
@@ -60,8 +60,8 @@ void PPUThread::InitRegs()
 	const u32 pc = Memory.Read32(entry);
 	const u32 rtoc = Memory.Read32(entry + 4);
 
-	//ConLog.Write("entry = 0x%x", entry);
-	//ConLog.Write("rtoc = 0x%x", rtoc);
+	//ConLog.Write("entry = 0x???", fmt::fmt("%x",entry));
+	//ConLog.Write("rtoc = 0x???", fmt::fmt("%x",rtoc));
 
 	SetPc(pc);
 

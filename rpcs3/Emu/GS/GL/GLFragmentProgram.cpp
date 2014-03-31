@@ -59,7 +59,7 @@ void GLFragmentDecompilerThread::AddCode(std::string code, bool append_mask)
 		case 7: code = "(" + code + " / 8)"; break;
 
 		default:
-			ConLog.Error("Bad scale: %d", src1.scale);
+			ConLog.Error("Bad scale: ???", fmt::by_value(src1.scale));
 			Emu.Pause();
 		break;
 		}
@@ -186,7 +186,7 @@ template<typename T> std::string GLFragmentDecompilerThread::GetSRC(T src)
 			}
 			else
 			{
-				ConLog.Error("Bad src reg num: %d", dst.src_attr_reg_num);
+				ConLog.Error("Bad src reg num: ???", fmt::by_value(dst.src_attr_reg_num));
 				ret += m_parr.AddParam(PARAM_IN, "vec4", "unk");
 				Emu.Pause();
 			}
@@ -200,7 +200,7 @@ template<typename T> std::string GLFragmentDecompilerThread::GetSRC(T src)
 	break;
 
 	default:
-		ConLog.Error("Bad src type %d", src.reg_type);
+		ConLog.Error("Bad src type ???", fmt::by_value(src.reg_type));
 		Emu.Pause();
 	break;
 	}
@@ -334,7 +334,7 @@ void GLFragmentDecompilerThread::Task()
 		case 0x3e: break; // FENCB
 
 		default:
-			ConLog.Error("Unknown opcode 0x%x (inst %d)", opcode, m_size / (4 * 4));
+			ConLog.Error(fmt::fmt("Unknown opcode 0x%x (inst %d)", opcode, m_size / (4 * 4)));
 			Emu.Pause();
 		break;
 		}
@@ -420,11 +420,11 @@ void GLShaderProgram::Compile()
 			GLsizei len;
 			memset(buf, 0, r+1);
 			glGetShaderInfoLog(id, r, &len, buf);
-			ConLog.Error("Failed to compile shader: %s", wxString(buf).wx_str());
+			ConLog.Error("Failed to compile shader: ???", buf);
 			delete[] buf;
 		}
 
-		ConLog.Write(shader.c_str());
+		ConLog.Write(shader);
 		Emu.Pause();
 	}
 	//else ConLog.Write("Shader compiled successfully!");

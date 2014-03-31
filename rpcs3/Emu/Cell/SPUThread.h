@@ -138,7 +138,7 @@ public:
 
 	FPSCR() {}
 
-	wxString ToString() const
+	std::string ToString() const
 	{
 		return "FPSCR writer not yet implemented"; //wxString::Format("%08x%08x%08x%08x", _u32[3], _u32[2], _u32[1], _u32[0]);
 	}
@@ -230,9 +230,9 @@ union SPU_GPR_hdr
 
 	SPU_GPR_hdr() {}
 
-	wxString ToString() const
+	std::string ToString() const
 	{
-		return wxString::Format("%08x%08x%08x%08x", _u32[3], _u32[2], _u32[1], _u32[0]);
+		return fmt::FormatV("%08x%08x%08x%08x", _u32[3], _u32[2], _u32[1], _u32[0]);
 	}
 
 	void Reset()
@@ -249,9 +249,9 @@ union SPU_SPR_hdr
 
 	SPU_SPR_hdr() {}
 
-	wxString ToString() const
+	std::string ToString() const
 	{
-		return wxString::Format("%08x%08x%08x%08x", _u32[3], _u32[2], _u32[1], _u32[0]);
+		return fmt::FormatV("%08x%08x%08x%08x", _u32[3], _u32[2], _u32[1], _u32[0]);
 	}
 
 	void Reset()
@@ -266,9 +266,9 @@ union SPU_SNRConfig_hdr
 
 	SPU_SNRConfig_hdr() {}
 
-	wxString ToString() const
+	std::string ToString() const
 	{
-		return wxString::Format("%01x", value);
+		return fmt::FormatV("%01x", value);
 	}
 
 	void Reset()
@@ -653,8 +653,8 @@ public:
 			}
 
 			if (Ini.HLELogging.GetValue() || rec->s)
-				ConLog.Write("*** list element(%d/%d): s = 0x%x, ts = 0x%x, low ea = 0x%x (lsa = 0x%x)",
-					i, list_size, (u16)rec->s, (u16)rec->ts, (u32)rec->ea, lsa | (addr & 0xf));
+				ConLog.Write(fmt::fmt("*** list element(%d/%d): s = 0x%x, ts = 0x%x, low ea = 0x%x (lsa = 0x%x)",
+					i, list_size, (u16)rec->s, (u16)rec->ts, (u32)rec->ea, lsa | (addr & 0xf)));
 
 			lsa += max(size, (u32)16);
 
@@ -696,12 +696,12 @@ public:
 		case MFC_PUTR_CMD: // ???
 		case MFC_GET_CMD:
 		{
-			if (Ini.HLELogging.GetValue()) ConLog.Write("DMA %s%s%s%s: lsa = 0x%x, ea = 0x%llx, tag = 0x%x, size = 0x%x, cmd = 0x%x", 
-				wxString(op & MFC_PUT_CMD ? "PUT" : "GET").wx_str(),
-				wxString(op & MFC_RESULT_MASK ? "R" : "").wx_str(),
-				wxString(op & MFC_BARRIER_MASK ? "B" : "").wx_str(),
-				wxString(op & MFC_FENCE_MASK ? "F" : "").wx_str(),
-				lsa, ea, tag, size, cmd);
+			if (Ini.HLELogging.GetValue()) ConLog.Write(fmt::fmt("DMA %s%s%s%s: lsa = 0x%x, ea = 0x%llx, tag = 0x%x, size = 0x%x, cmd = 0x%x", 
+				(op & MFC_PUT_CMD ? "PUT" : "GET"),
+				(op & MFC_RESULT_MASK ? "R" : ""),
+				(op & MFC_BARRIER_MASK ? "B" : ""),
+				(op & MFC_FENCE_MASK ? "F" : ""),
+				lsa, ea, tag, size, cmd));
 			if (op & MFC_PUT_CMD)
 			{
 				SMutexLocker lock(reservation.mutex); // should be removed
@@ -723,12 +723,12 @@ public:
 		case MFC_PUTRL_CMD: // ???
 		case MFC_GETL_CMD:
 		{
-			if (Ini.HLELogging.GetValue()) ConLog.Write("DMA %s%s%s%s: lsa = 0x%x, list = 0x%llx, tag = 0x%x, size = 0x%x, cmd = 0x%x",
-				wxString(op & MFC_PUT_CMD ? "PUT" : "GET").wx_str(),
-				wxString(op & MFC_RESULT_MASK ? "RL" : "L").wx_str(),
-				wxString(op & MFC_BARRIER_MASK ? "B" : "").wx_str(),
-				wxString(op & MFC_FENCE_MASK ? "F" : "").wx_str(),
-				lsa, ea, tag, size, cmd);
+			if (Ini.HLELogging.GetValue()) ConLog.Write(fmt::fmt("DMA %s%s%s%s: lsa = 0x%x, list = 0x%llx, tag = 0x%x, size = 0x%x, cmd = 0x%x",
+				(op & MFC_PUT_CMD ? "PUT" : "GET"),
+				(op & MFC_RESULT_MASK ? "RL" : "L"),
+				(op & MFC_BARRIER_MASK ? "B" : ""),
+				(op & MFC_FENCE_MASK ? "F" : ""),
+				lsa, ea, tag, size, cmd));
 
 			ListCmd(lsa, ea, tag, size, cmd, MFCArgs);
 		}
@@ -739,11 +739,11 @@ public:
 		case MFC_PUTLLUC_CMD:
 		case MFC_PUTQLLUC_CMD:
 		{
-			if (Ini.HLELogging.GetValue()) ConLog.Write("DMA %s: lsa=0x%x, ea = 0x%llx, (tag) = 0x%x, (size) = 0x%x, cmd = 0x%x",
-				wxString(op == MFC_GETLLAR_CMD ? "GETLLAR" :
+			if (Ini.HLELogging.GetValue()) ConLog.Write(fmt::fmt("DMA %s: lsa=0x%x, ea = 0x%llx, (tag) = 0x%x, (size) = 0x%x, cmd = 0x%x",
+				(op == MFC_GETLLAR_CMD ? "GETLLAR" :
 				op == MFC_PUTLLC_CMD ? "PUTLLC" :
-				op == MFC_PUTLLUC_CMD ? "PUTLLUC" : "PUTQLLUC").wx_str(),
-				lsa, ea, tag, size, cmd);
+				op == MFC_PUTLLUC_CMD ? "PUTLLUC" : "PUTQLLUC"),
+				lsa, ea, tag, size, cmd));
 
 			if (op == MFC_GETLLAR_CMD) // get reservation
 			{
@@ -809,11 +809,11 @@ public:
 
 		case SPU_RdInMbox:
 			count = SPU.In_MBox.GetCount();
-			//ConLog.Warning("GetChannelCount(%s) -> %d", wxString(spu_ch_name[ch]).wx_str(), count);
+			//ConLog.Warning("GetChannelCount(???) -> ???", spu_ch_name[ch], count);
 			return count;
 
 		case SPU_WrOutIntrMbox:
-			ConLog.Warning("GetChannelCount(%s) = 0", wxString(spu_ch_name[ch]).wx_str());
+			ConLog.Warning("GetChannelCount(???) = 0", spu_ch_name[ch]);
 			return 0;
 
 		case MFC_RdTagStat:
@@ -874,7 +874,7 @@ public:
 
 					if (Ini.HLELogging.GetValue())
 					{
-						ConLog.Write("sys_spu_thread_send_event(spup=%d, data0=0x%x, data1=0x%x)", spup, v & 0x00ffffff, data);
+						ConLog.Write(fmt::fmt("sys_spu_thread_send_event(spup=%d, data0=0x%x, data1=0x%x)", spup, v & 0x00ffffff, data));
 					}
 
 					EventPort& port = SPUPs[spup];
@@ -1088,39 +1088,61 @@ public:
 	SPUThread(CPUThreadType type = CPU_THREAD_SPU);
 	virtual ~SPUThread();
 
-	virtual wxString RegsToString()
+	virtual std::string RegsToString()
 	{
-		wxString ret = "Registers:\n=========\n";
+		std::string ret = "Registers:\n=========\n";
 
-		for(uint i=0; i<128; ++i) ret += wxString::Format("GPR[%d] = 0x%s\n", i, GPR[i].ToString().wx_str());
+		for(uint i=0; i<128; ++i) ret += fmt::Format("GPR[???] = 0x???\n", i, GPR[i].ToString());
 
 		return ret;
 	}
 
-	virtual wxString ReadRegString(wxString reg)
+	virtual std::string ReadRegString(const std::string &reg)
 	{
-		if (reg.Contains("["))
+		std::string::size_type brkpos = reg.find("[");
+		if (brkpos != std::string::npos)
 		{
 			long reg_index;
-			reg.AfterFirst('[').RemoveLast().ToLong(&reg_index);
-			if (reg.StartsWith("GPR")) return wxString::Format("%016llx%016llx",  GPR[reg_index]._u64[1], GPR[reg_index]._u64[0]);
+			try
+			{
+				reg_index = std::stol(reg.substr(brkpos + 1, reg.size() - 2));
+				if (reg.find("GPR")==0) return fmt::FormatV("%016llx%016llx", GPR[reg_index]._u64[1], GPR[reg_index]._u64[0]);
+			}
+			catch (...)
+			{
+			}
 		}
-		return wxEmptyString;
+		return "";
 	}
 
-	bool WriteRegString(wxString reg, wxString value)
+	bool WriteRegString(const std::string &reg, std::string &value)
 	{
-		while (value.Len() < 32) value = "0"+value;
-		if (reg.Contains("["))
+		while (value.length() < 32) value = "0"+value;
+		std::string::size_type brkpos = reg.find("[");
+		if (brkpos != std::string::npos)
 		{
 			long reg_index;
-			reg.AfterFirst('[').RemoveLast().ToLong(&reg_index);
-			if (reg.StartsWith("GPR"))
+			try
+			{
+				reg_index = std::stol(reg.substr(brkpos + 1, reg.size() - 2));
+			}
+			catch (...)
+			{
+				return false;
+			}
+			if (reg.find("GPR") == 0)
 			{
 				unsigned long long reg_value0;
 				unsigned long long reg_value1;
-				if (!value.SubString(16,31).ToULongLong(&reg_value0, 16)) return false;
-				if (!value.SubString(0,15).ToULongLong(&reg_value1, 16)) return false;
+				try
+				{
+					reg_value0 = stoull(value.substr(16, 31),nullptr, 16);
+					reg_value1 = stoull(value.substr(0, 15), nullptr, 16);
+				}
+				catch (...)
+				{
+					return false;
+				}
 				GPR[reg_index]._u64[0] = (u64)reg_value0;
 				GPR[reg_index]._u64[1] = (u64)reg_value1;
 				return true;

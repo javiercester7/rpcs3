@@ -102,7 +102,7 @@ int cellFsOpen(u32 path_addr, int flags, mem32_t fd, mem32_t arg, u64 size)
 
 	if(_oflags != 0)
 	{
-		sys_fs.Error("\"%s\" has unknown flags! flags: 0x%08x", ppath.wx_str(), flags);
+		sys_fs.Error(fmt::fmt("\"%s\" has unknown flags! flags: 0x%08x", ppath.c_str(), flags)); //TODOW:
 		return CELL_EINVAL;
 	}
 
@@ -232,7 +232,7 @@ int cellFsReaddir(u32 fd, mem_ptr_t<CellFsDirent> dir, mem64_t nread)
 	if(info)
 	{
 		nread = 1;
-		Memory.WriteString(dir.GetAddr()+2, info->name.wx_str());
+		Memory.WriteString(dir.GetAddr()+2, info->name.ToStdString());
 		dir->d_namlen = info->name.Length();
 		dir->d_type = (info->flags & DirEntry_TypeFile) ? CELL_FS_TYPE_REGULAR : CELL_FS_TYPE_DIRECTORY;
 	}
@@ -496,7 +496,7 @@ int cellFsFGetBlockSize(u32 fd, mem64_t sector_size, mem64_t block_size)
 
 int cellFsGetBlockSize(u32 path_addr, mem64_t sector_size, mem64_t block_size)
 {
-	sys_fs.Log("cellFsGetBlockSize(file: %s, sector_size_addr: 0x%x, block_size_addr: 0x%x)", Memory.ReadString(path_addr).wx_str(), sector_size.GetAddr(), block_size.GetAddr());
+	sys_fs.Log("cellFsGetBlockSize(file: %s, sector_size_addr: 0x%x, block_size_addr: 0x%x)", Memory.ReadString(path_addr), sector_size.GetAddr(), block_size.GetAddr());
 
 	sector_size = 4096; // ?
 	block_size = 4096; // ?
@@ -537,7 +537,7 @@ int cellFsGetDirectoryEntries(u32 fd, mem_ptr_t<CellFsDirectoryEntry> entries, u
 	if(info)
 	{
 		data_count = 1;
-		Memory.WriteString(entries.GetAddr()+2, info->name.wx_str());
+		Memory.WriteString(entries.GetAddr()+2, info->name.ToStdString());
 		entries->entry_name.d_namlen = info->name.Length();
 		entries->entry_name.d_type = (info->flags & DirEntry_TypeFile) ? CELL_FS_TYPE_REGULAR : CELL_FS_TYPE_DIRECTORY;
 

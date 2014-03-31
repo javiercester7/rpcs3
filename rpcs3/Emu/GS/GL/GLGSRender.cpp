@@ -23,7 +23,7 @@ void printGlError(GLenum err, const char* situation)
 {
 	if(err != GL_NO_ERROR)
 	{
-		ConLog.Error("%s: opengl error 0x%04x", wxString(situation).wx_str(), err);
+		ConLog.Error(fmt::fmt("%s: opengl error 0x%04x", situation, err));
 		Emu.Pause();
 	}
 }
@@ -217,7 +217,7 @@ void GLGSRender::EnableVertexData(bool indexed_draw)
 		break;
 
 		default:
-			ConLog.Error("Bad cv type! %d", m_vertex_data[i].type);
+			ConLog.Error("Bad cv type! ???", m_vertex_data[i].type);
 		return;
 		}
 
@@ -316,13 +316,13 @@ void GLGSRender::InitVertexData()
 	for(u32 i=0; i<m_transform_constants.GetCount(); ++i)
 	{
 		const RSXTransformConstant& c = m_transform_constants[i];
-		const wxString name = wxString::Format("vc%u", c.id);
+		const std::string name = fmt::FormatV("vc%u", c.id);
 		l = m_program.GetLocation(name);
-		checkForGlError("glGetUniformLocation " + name);
+		checkForGlError( ("glGetUniformLocation "+name).c_str() );
 
-		//ConLog.Write(name + " x: %.02f y: %.02f z: %.02f w: %.02f", c.x, c.y, c.z, c.w);
+		//ConLog.Write(name + fmt::fmt(" x: %.02f y: %.02f z: %.02f w: %.02f", c.x, c.y, c.z, c.w));
 		glUniform4f(l, c.x, c.y, c.z, c.w);
-		checkForGlError("glUniform4f " + name + wxString::Format(" %d [%f %f %f %f]", l, c.x, c.y, c.z, c.w));
+		checkForGlError( ("glUniform4f " + name + fmt::FormatV(" %d [%f %f %f %f]", l, c.x, c.y, c.z, c.w)).c_str() );
 	}
 
 	// Scale
@@ -727,7 +727,7 @@ void GLGSRender::ExecCMD()
 		break;
 
 		default:
-			ConLog.Error("Bad depth format! (%d)", m_surface_depth_format);
+			ConLog.Error("Bad depth format! (???)", m_surface_depth_format);
 			assert(0);
 		break;
 		}
@@ -791,7 +791,7 @@ void GLGSRender::ExecCMD()
 	break;
 
 	default:
-		ConLog.Error("Bad surface colour target: %d", m_surface_colour_target);
+		ConLog.Error("Bad surface colour target: ???", m_surface_colour_target);
 	break;
 	}
 
@@ -1076,7 +1076,7 @@ void GLGSRender::ExecCMD()
 		break;
 
 		default:
-			ConLog.Error("Bad indexed array type (%d)", m_indexed_array.m_type);
+			ConLog.Error("Bad indexed array type (???)", m_indexed_array.m_type);
 		break;
 		}
 

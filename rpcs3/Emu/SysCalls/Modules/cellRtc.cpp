@@ -78,7 +78,7 @@ int cellRtcFormatRfc2822(u32 rfc_addr, u32 tick_addr, int time_zone)
 	date.Add(tz);
 
 	// Format date string in RFC2822 format (e.g.: Mon, 01 Jan 1990 12:00:00 +0000).
-	const wxString& str = date.Format("%a, %d %b %Y %T %z", wxDateTime::TZ::UTC);
+	const std::string str = date.Format("%a, %d %b %Y %T %z", wxDateTime::TZ::UTC);
 	Memory.WriteString(rfc_addr, str);
 
 	return CELL_OK;
@@ -94,7 +94,7 @@ int cellRtcFormatRfc2822LocalTime(u32 rfc_addr, u32 tick_addr)
 	wxDateTime date = wxDateTime::wxDateTime((time_t)current_tick.tick);
 
 	// Format date string in RFC2822 format (e.g.: Mon, 01 Jan 1990 12:00:00 +0000).
-	const wxString& str = date.Format("%a, %d %b %Y %T %z", wxDateTime::TZ::Local);
+	const std::string str = date.Format("%a, %d %b %Y %T %z", wxDateTime::TZ::Local);
 	Memory.WriteString(rfc_addr, str);
 
 	return CELL_OK;
@@ -114,7 +114,7 @@ int cellRtcFormatRfc3339(u32 rfc_addr, u32 tick_addr, int time_zone)
 	date.Add(tz);
 
 	// Format date string in RFC3339 format (e.g.: 1990-01-01T12:00:00.00Z).
-	const wxString& str = date.Format("%FT%T.%zZ", wxDateTime::TZ::UTC);
+	const std::string str = date.Format("%FT%T.%zZ", wxDateTime::TZ::UTC);
 	Memory.WriteString(rfc_addr, str);
 
 	return CELL_OK;
@@ -130,7 +130,7 @@ int cellRtcFormatRfc3339LocalTime(u32 rfc_addr, u32 tick_addr)
 	wxDateTime date = wxDateTime::wxDateTime((time_t)current_tick.tick);
 	
 	// Format date string in RFC3339 format (e.g.: 1990-01-01T12:00:00.00Z).
-	const wxString& str = date.Format("%FT%T.%zZ", wxDateTime::TZ::Local);
+	const std::string str = date.Format("%FT%T.%zZ", wxDateTime::TZ::Local);
 	Memory.WriteString(rfc_addr, str);
 
 	return CELL_OK;

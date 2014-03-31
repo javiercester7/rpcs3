@@ -51,7 +51,7 @@ void GLProgram::Create(const u32 vp, const u32 fp)
 			char* buf = new char[bufLength+1];
 			memset(buf, 0, bufLength+1);
 			glGetProgramInfoLog(id, bufLength, NULL, buf);
-			ConLog.Error("Could not link program: %s", wxString(buf).wx_str());
+			ConLog.Error("Could not link program: ???", buf);
 			delete[] buf;
 
 			return;
@@ -70,7 +70,7 @@ void GLProgram::Create(const u32 vp, const u32 fp)
 			char* buf = new char[bufLength];
 			memset(buf, 0, bufLength);
 			glGetProgramInfoLog(id, bufLength, NULL, buf);
-			ConLog.Error("Could not link program: %s", wxString(buf).wx_str());
+			ConLog.Error("Could not link program: ???", buf);
 			delete[] buf;
 
 			return;

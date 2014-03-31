@@ -14,7 +14,7 @@ u32 GetAddress(u32 offset, u8 location)
 	case CELL_GCM_LOCATION_MAIN: return Memory.RSXIOMem.getRealAddr(Memory.RSXIOMem.GetStartAddr() + offset);
 	}
 
-	ConLog.Error("GetAddress(offset=0x%x, location=0x%x)", location);
+	ConLog.Error(fmt::fmt("GetAddress(offset=0x%x, location=0x%x)", offset, location));
 	assert(0);
 	return 0;
 }
@@ -91,7 +91,7 @@ u32 RSXVertexData::GetTypeSize()
 	case 7: return 1;
 	}
 
-	ConLog.Error("Bad vertex data type! %d", type);
+	ConLog.Error("Bad vertex data type! ???", type);
 	return 1;
 }
 
@@ -105,11 +105,11 @@ u32 RSXVertexData::GetTypeSize()
 
 u32 RSXThread::OutOfArgsCount(const uint x, const u32 cmd, const u32 count)
 {
-	wxString debug = GetMethodName(cmd);
+	std::string debug = GetMethodName(cmd);
 	debug += "(";
-	for(u32 i=0; i<count; ++i) debug += (i ? ", " : "") + wxString::Format("0x%x", ARGS(i));
+	for(u32 i=0; i<count; ++i) debug += (i ? ", " : "") + std::string(static_cast<const char *>(wxString::Format("0x%x", ARGS(i)).ToUTF8()));
 	debug += ")";
-	ConLog.Write("OutOfArgsCount(x=%u, count=%u): " + debug, x, count);
+	ConLog.Write("OutOfArgsCount(x=???, count=???): " + debug, x, count);
 
 	return 0;
 }
@@ -172,9 +172,9 @@ u32 RSXThread::OutOfArgsCount(const uint x, const u32 cmd, const u32 count)
 void RSXThread::DoCmd(const u32 fcmd, const u32 cmd, mem32_ptr_t& args, const u32 count)
 {
 #if	CMD_DEBUG
-		wxString debug = GetMethodName(cmd);
+		std:string debug = GetMethodName(cmd);
 		debug += "(";
-		for(u32 i=0; i<count; ++i) debug += (i ? ", " : "") + wxString::Format("0x%x", ARGS(i));
+		for(u32 i=0; i<count; ++i) debug += (i ? ", " : "") + fmt::FormatV("0x%x", ARGS(i));
 		debug += ")";
 		ConLog.Write(debug);
 #endif
@@ -1048,7 +1048,7 @@ void RSXThread::DoCmd(const u32 fcmd, const u32 cmd, mem32_ptr_t& args, const u3
 	{
 		if(count != 4)
 		{
-			ConLog.Error("NV4097_SET_SURFACE_PITCH_C: Bad count (%d)", count);
+			ConLog.Error("NV4097_SET_SURFACE_PITCH_C: Bad count (???)", count);
 			break;
 		}
 
@@ -1190,7 +1190,7 @@ void RSXThread::DoCmd(const u32 fcmd, const u32 cmd, mem32_ptr_t& args, const u3
 
 		default:
 			data = 0;
-			ConLog.Error("NV4097_GET_REPORT: bad type %d", type);
+			ConLog.Error("NV4097_GET_REPORT: bad type ???", type);
 		break;
 		}
 
@@ -1412,9 +1412,9 @@ void RSXThread::DoCmd(const u32 fcmd, const u32 cmd, mem32_ptr_t& args, const u3
 
 	default:
 	{
-		wxString log = GetMethodName(cmd);
+		std::string log = GetMethodName(cmd);
 		log += "(";
-		for(u32 i=0; i<count; ++i) log += (i ? ", " : "") + wxString::Format("0x%x", ARGS(i));
+		for (u32 i = 0; i<count; ++i) log += (i ? ", " : "") + fmt::FormatV("0x%x", ARGS(i) );;
 		log += ")";
 		ConLog.Error("TODO: " + log);
 		//Emu.Pause();
@@ -1489,7 +1489,7 @@ void RSXThread::Task()
 			continue;
 		}
 
-		//ConLog.Write("addr = 0x%x", m_ioAddress + get);
+		//ConLog.Write(fmt::fmt("addr = 0x%x", m_ioAddress + get));
 		const u32 cmd = Memory.Read32(Memory.RSXIOMem.GetStartAddr() + get);
 		const u32 count = (cmd >> 18) & 0x7ff;
 		//if(cmd == 0) continue;

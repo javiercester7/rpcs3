@@ -141,7 +141,7 @@ void Emulator::Load()
 		m_path = elf_path;
 	}
 
-	ConLog.Write("Loading '%s'...", m_path.wx_str());
+	ConLog.Write("Loading '???'...", m_path.ToStdString());
 	GetInfo().Reset();
 	m_vfs.Init(m_path);
 
@@ -149,7 +149,7 @@ void Emulator::Load()
 	ConLog.Write("Mount info:");
 	for(uint i=0; i<m_vfs.m_devices.GetCount(); ++i)
 	{
-		ConLog.Write("%s -> %s", m_vfs.m_devices[i].GetPs3Path().wx_str(), m_vfs.m_devices[i].GetLocalPath().wx_str());
+		ConLog.Write("??? -> ???", m_vfs.m_devices[i].GetPs3Path().ToStdString(), m_vfs.m_devices[i].GetLocalPath().ToStdString());
 	}
 	ConLog.SkipLn();
 
@@ -162,7 +162,7 @@ void Emulator::Load()
 
 	if(!f.IsOpened())
 	{
-		ConLog.Error("Elf not found! (%s - %s)", m_path.wx_str(), m_elf_path.wx_str());
+		ConLog.Error("Elf not found! (??? - ???)", m_path.ToStdString(), m_elf_path.ToStdString());
 		return;
 	}
 
@@ -195,7 +195,7 @@ void Emulator::Load()
 	}
 	catch(const wxString& e)
 	{
-		ConLog.Error(e);
+		ConLog.Error(std::string(static_cast<const char *>(e.ToUTF8())));
 		is_error = true;
 	}
 	catch(...)
@@ -235,8 +235,8 @@ void Emulator::Load()
 	switch(l.GetMachine())
 	{
 	case MACHINE_SPU:
-		ConLog.Write("offset = 0x%llx", Memory.MainMem.GetStartAddr());
-		ConLog.Write("max addr = 0x%x", l.GetMaxAddr());
+		ConLog.Write(fmt::fmt("offset = 0x%llx", Memory.MainMem.GetStartAddr()));
+		ConLog.Write(fmt::fmt("max addr = 0x%x", l.GetMaxAddr()));
 		thread.SetOffset(Memory.MainMem.GetStartAddr());
 		Memory.MainMem.AllocFixed(Memory.MainMem.GetStartAddr() + l.GetMaxAddr(), 0xFFFFED - l.GetMaxAddr());
 		thread.SetEntry(l.GetEntry() - Memory.MainMem.GetStartAddr());
@@ -249,7 +249,7 @@ void Emulator::Load()
 		thread.SetEntry(l.GetEntry());
 		Memory.StackMem.AllocAlign(0x1000);
 		thread.InitStack();
-		thread.AddArgv(m_elf_path);
+		thread.AddArgv(m_elf_path.ToStdString());
 		//thread.AddArgv("-emu");
 
 		m_rsx_callback = Memory.MainMem.AllocAlign(4 * 4) + 4;

@@ -47,7 +47,7 @@ bool TRPLoader::LoadHeader(bool show)
 		return false;
 
 	if (show)
-		ConLog.Write("TRP version: %x", m_header.trp_version);
+		ConLog.Write(fmt::fmt("TRP version: %x", m_header.trp_version));
 
 	m_entries.clear();
 	m_entries.resize(m_header.trp_files_count);
@@ -58,7 +58,7 @@ bool TRPLoader::LoadHeader(bool show)
 			return false;
 
 		if (show)
-			ConLog.Write("TRP entry #%d: %s", wxString(m_entries[i].name).wx_str());
+			ConLog.Write("TRP entry #???: ???", i, m_entries[i].name);
 	}
 
 	return true;

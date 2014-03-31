@@ -61,7 +61,7 @@ void sys_game_process_exitspawn(
 			u64 flags )
 {
 	sc_p.Error("sys_game_process_exitspawn UNIMPLEMENTED");
-	sc_p.Warning("path: %s", Memory.ReadString(path_addr).wx_str());
+	sc_p.Warning("path: %s", Memory.ReadString(path_addr));
 	sc_p.Warning("argv: 0x%x", argv_addr);
 	sc_p.Warning("envp: 0x%x", envp_addr);
 	sc_p.Warning("data: 0x%x", data_addr);
@@ -109,7 +109,7 @@ void sys_game_process_exitspawn2(
 			u64 flags)
 {
 	sc_p.Error("sys_game_process_exitspawn2 UNIMPLEMENTED");
-	sc_p.Warning("path: %s", Memory.ReadString(path_addr).wx_str());
+	sc_p.Warning("path: %s", Memory.ReadString(path_addr));
 	sc_p.Warning("argv: 0x%x", argv_addr);
 	sc_p.Warning("envp: 0x%x", envp_addr);
 	sc_p.Warning("data: 0x%x", data_addr);

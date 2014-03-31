@@ -114,9 +114,10 @@ LogWriter::LogWriter()
 	}
 }
 
-void LogWriter::WriteToLog(wxString prefix, wxString value, u8 lvl/*, wxColour bgcolour*/)
+void LogWriter::WriteToLog(const std::string& prefixSymbol, const std::string& value, u8 lvl/*, wxColour bgcolour*/)
 {
-	if(!prefix.empty())
+	std::string prefix = prefixSymbol;
+	if (!prefix.empty())
 	{
 		if(NamedThreadBase* thr = GetCurrentNamedThread())
 		{
@@ -124,7 +125,7 @@ void LogWriter::WriteToLog(wxString prefix, wxString value, u8 lvl/*, wxColour b
 		}
 	}
 
-	if(m_logfile.IsOpened() && !prefix.empty())
+	if (m_logfile.IsOpened() && !prefix.empty())
 		m_logfile.Write(wxString("[") + prefix + "]: " + value + "\n");
 
 	if(!ConLogFrame || Ini.HLELogLvl.GetValue() == 4 || (lvl != 0 && lvl <= Ini.HLELogLvl.GetValue()))
@@ -162,57 +163,6 @@ void LogWriter::WriteToLog(wxString prefix, wxString value, u8 lvl/*, wxColour b
 	LogBuffer.Push(LogPacket(prefix, value, g_log_colors[lvl]));
 }
 
-void LogWriter::Write(const wxString fmt, ...)
-{
-	va_list list;
-	va_start(list, fmt);
-
-	wxString frmt;
-	frmt = wxString::FormatV(fmt, list);
-
-	va_end(list);
-
-	WriteToLog("!", frmt, 2);
-}
-
-void LogWriter::Error(const wxString fmt, ...)
-{
-	va_list list;
-	va_start(list, fmt);
-
-	wxString frmt;
-	frmt = wxString::FormatV(fmt, list);
-
-	va_end(list);
-
-	WriteToLog("E", frmt, 4);
-}
-
-void LogWriter::Warning(const wxString fmt, ...)
-{
-	va_list list;
-	va_start(list, fmt);
-
-	wxString frmt;
-	frmt = wxString::FormatV(fmt, list);
-
-	va_end(list);
-
-	WriteToLog("W", frmt, 3);
-}
-
-void LogWriter::Success(const wxString fmt, ...)
-{
-	va_list list;
-	va_start(list, fmt);
-
-	wxString frmt;
-	frmt = wxString::FormatV(fmt, list);
-
-	va_end(list);
-
-	WriteToLog("S", frmt, 1);
-}
 
 void LogWriter::SkipLn()
 {

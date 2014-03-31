@@ -398,7 +398,7 @@ bool SELFDecrypter::MakeElf(const std::string& elf, bool isElf32)
 	wxFile e(elf.c_str(), wxFile::write);
 	if(!e.IsOpened())
 	{
-		ConLog.Error("Could not create ELF file! (%s)", wxString(elf).wx_str());
+		ConLog.Error("Could not create ELF file! (???)", elf);
 		return false;
 	}
 
@@ -529,7 +529,7 @@ bool SELFDecrypter::GetKeyFromRap(u8 *content_id, u8 *npdrm_key)
 		return false;
 	}
 
-	ConLog.Write("Loading RAP file %s", ci_str.wc_str() + wchar_t(".rap"));
+	ConLog.Write("Loading RAP file ???", ci_str.ToStdString() + ".rap");
 	rap_file.Read(rap_key, 0x10);
 	rap_file.Close();
 
@@ -579,7 +579,7 @@ bool CheckDebugSelf(const std::string& self, const std::string& elf)
 
 	if(!s.IsOpened())
 	{
-		ConLog.Error("Could not open SELF file! (%s)", wxString(self).wx_str());
+		ConLog.Error("Could not open SELF file! (???)", self);
 		return false;
 	}
 
@@ -606,7 +606,7 @@ bool CheckDebugSelf(const std::string& self, const std::string& elf)
 		wxFile e(elf.c_str(), wxFile::write);
 		if(!e.IsOpened())
 		{
-			ConLog.Error("Could not create ELF file! (%s)", wxString(elf).wx_str());
+			ConLog.Error("Could not create ELF file! (???)", elf);
 			return false;
 		}
 

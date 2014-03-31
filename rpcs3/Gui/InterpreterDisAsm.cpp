@@ -526,7 +526,7 @@ void InterpreterDisAsmFrame::DClick(wxListEvent& event)
 
 	const u64 start_pc = PC - m_item_count*4;
 	const u64 pc = start_pc + i*4;
-	//ConLog.Write("pc=0x%llx", pc);
+	//ConLog.Write(fmt::fmt("pc=0x%llx", pc));
 
 	if(IsBreakPoint(pc))
 	{

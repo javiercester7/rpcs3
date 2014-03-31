@@ -27,14 +27,14 @@ int sys_event_queue_create(mem32_t equeue_id, mem_ptr_t<sys_event_queue_attr> at
 	case se32(SYS_SYNC_RETRY): sys_event.Error("Invalid SYS_SYNC_RETRY protocol attr"); return CELL_EINVAL;
 	case se32(SYS_SYNC_PRIORITY_INHERIT): sys_event.Error("Invalid SYS_SYNC_PRIORITY_INHERIT protocol attr"); return CELL_EINVAL;
 	case se32(SYS_SYNC_FIFO): break;
-	default: sys_event.Error("Unknown 0x%x protocol attr", (u32)attr->protocol); return CELL_EINVAL;
+	default: sys_event.Error(fmt::fmt("Unknown 0x%x protocol attr", (u32)attr->protocol)); return CELL_EINVAL;
 	}
 
 	switch (attr->type.ToBE())
 	{
 	case se32(SYS_PPU_QUEUE): break;
 	case se32(SYS_SPU_QUEUE): break;
-	default: sys_event.Error("Unknown 0x%x type attr", (u32)attr->type); return CELL_EINVAL;
+	default: sys_event.Error(fmt::fmt("Unknown 0x%x type attr", (u32)attr->type)); return CELL_EINVAL;
 	}
 
 	if (event_queue_key && Emu.GetEventManager().CheckKey(event_queue_key))
@@ -59,7 +59,7 @@ int sys_event_queue_create(mem32_t equeue_id, mem_ptr_t<sys_event_queue_attr> at
 
 int sys_event_queue_destroy(u32 equeue_id, int mode)
 {
-	sys_event.Error("sys_event_queue_destroy(equeue_id=%d, mode=0x%x)", equeue_id, mode);
+	sys_event.Error(fmt::fmt("sys_event_queue_destroy(equeue_id=%d, mode=0x%x)", equeue_id, mode));
 
 	EventQueue* eq;
 	if (!Emu.GetIdManager().GetIDData(equeue_id, eq))
@@ -104,8 +104,8 @@ int sys_event_queue_destroy(u32 equeue_id, int mode)
 
 int sys_event_queue_tryreceive(u32 equeue_id, mem_ptr_t<sys_event_data> event_array, int size, mem32_t number)
 {
-	sys_event.Error("sys_event_queue_tryreceive(equeue_id=%d, event_array_addr=0x%x, size=%d, number_addr=0x%x)",
-		equeue_id, event_array.GetAddr(), size, number.GetAddr());
+	sys_event.Error(fmt::fmt("sys_event_queue_tryreceive(equeue_id=%d, event_array_addr=0x%x, size=%d, number_addr=0x%x)",
+		equeue_id, event_array.GetAddr(), size, number.GetAddr()));
 
 	if (size < 0 || !number.IsGood())
 	{
@@ -252,7 +252,7 @@ int sys_event_port_create(mem32_t eport_id, int port_type, u64 name)
 
 	if (port_type != SYS_EVENT_PORT_LOCAL)
 	{
-		sys_event.Error("sys_event_port_create: invalid port_type(0x%x)", port_type);
+		sys_event.Error(fmt::fmt("sys_event_port_create: invalid port_type(0x%x)", port_type));
 		return CELL_EINVAL;
 	}
 
@@ -319,7 +319,7 @@ int sys_event_port_connect_local(u32 eport_id, u32 equeue_id)
 	EventQueue* equeue;
 	if (!Emu.GetIdManager().GetIDData(equeue_id, equeue))
 	{
-		sys_event.Error("sys_event_port_connect_local: event_queue(%d) not found!", equeue_id);
+		sys_event.Error("sys_event_port_connect_local: event_queue(???) not found!", equeue_id);
 		eport->mutex.unlock(tid);
 		return CELL_ESRCH;
 	}
